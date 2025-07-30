@@ -1,9 +1,13 @@
 // create reference for input fields.
 const firstNameInput = document.querySelector("#first-name-input");
 const lastNameInput = document.querySelector("#last-name-input");
+const emailInput = document.querySelector("#email-input");
+const passwordInput = document.querySelector("#password-input");
+const confirmPasswordInput = document.querySelector("#password-confirm-input");
 
 // create reference for buttons.
 const submitBtn = document.querySelector("#submit-btn");
+const resetBtn = document.querySelector("#reset-btn");
 
 // simple email validation
 function validateEmail(email) {
@@ -19,14 +23,39 @@ firstNameInput.onkeyup = () => {
 };
 
 // add callback functions for other input events.
+
+lastNameInput.onkeyup = () => {
+  lastNameInput.classList.remove("is-valid");
+  lastNameInput.classList.remove("is-invalid");
+};
+
+emailInput.onkeyup = () => {
+  emailInput.classList.remove("is-valid");
+  emailInput.classList.remove("is-invalid");
+};
+
+passwordInput.onkeyup = () => {
+  passwordInput.classList.remove("is-valid");
+  passwordInput.classList.remove("is-invalid");
+};
+
+confirmPasswordInput.onkeyup = () => {
+  confirmPasswordInput.classList.remove("is-valid");
+  confirmPasswordInput.classList.remove("is-invalid");
+};
 // (lastname, email, password, confirm password)
 
 // add callback function for submit button.
 submitBtn.onclick = () => {
-  isFirstNameOk = false;
+  // ประกาศตัวแปรสถานะทั้งหมด
+  let isFirstNameOk = false;
+  let isLastNameOk = false;
+  let isEmailOk = false;
+  let isPasswordOk = false;
+  let isConfirmPasswordOk = false;
 
   // validate first name
-  if (firstNameInput.value !== "CPE207") {
+  if (firstNameInput.value.trim() === "") {
     firstNameInput.classList.add("is-invalid");
   } else {
     firstNameInput.classList.add("is-valid");
@@ -34,14 +63,67 @@ submitBtn.onclick = () => {
   }
 
   // validate last name
+  if (lastNameInput.value.trim() === "") {
+    lastNameInput.classList.add("is-invalid");
+  } else {
+    lastNameInput.classList.add("is-valid");
+    isLastNameOk = true;
+  }
 
   // validate email
+  if (!validateEmail(emailInput.value)) {
+    emailInput.classList.add("is-invalid");
+  } else {
+    emailInput.classList.add("is-valid");
+    isEmailOk = true;
+  }
 
   // validate password
+  if (passwordInput.value.length < 6) {
+    passwordInput.classList.add("is-invalid");
+    // ถ้ารหัสผ่านหลักไม่ถูกต้อง ให้แสดง error ที่ Confirm Password ด้วย
+    confirmPasswordInput.classList.add("is-invalid");
+  } else {
+    passwordInput.classList.add("is-valid");
+    isPasswordOk = true;
+  }
 
   // validate confirm password
+  if (passwordInput.value.length >= 6) {
+    if (confirmPasswordInput.value !== passwordInput.value) {
+      confirmPasswordInput.classList.add("is-invalid");
+    } else {
+      confirmPasswordInput.classList.add("is-valid");
+      isConfirmPasswordOk = true;
+    }
+  } else {
+    // รหัสผ่านหลักยังไม่ถูกต้อง (สั้นกว่า 6 ตัว)
+    confirmPasswordInput.classList.add("is-invalid");
+  }
 
-  if (isFirstNameOk) alert("Registered successfully");
+  if (
+    isFirstNameOk &&
+    isLastNameOk &&
+    isEmailOk &&
+    isPasswordOk &&
+    isConfirmPasswordOk
+  )
+    alert("Registered successfully");
 };
 
 // add callback function for Reset button.
+resetBtn.onclick = () => {
+  // รีเซ็ตค่าทั้งหมด
+  firstNameInput.value = "";
+  lastNameInput.value = "";
+  emailInput.value = "";
+  passwordInput.value = "";
+  confirmPasswordInput.value = "";
+
+  // รีเซ็ตสถานะการตรวจสอบ
+  firstNameInput.classList.remove("is-valid", "is-invalid");
+  lastNameInput.classList.remove("is-valid", "is-invalid");
+  emailInput.classList.remove("is-valid", "is-invalid");
+  passwordInput.classList.remove("is-valid", "is-invalid");
+  confirmPasswordInput.classList.remove("is-valid", "is-invalid");
+};

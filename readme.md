@@ -8,7 +8,7 @@
 
 ชื่อ-สกุล : อุ้มบญ แนวสุข
 
-GitHub Page URL :
+GitHub Page URL : https://cpe207-2568.github.io/lab07v2-Aumboonaew/
 
 ---
 
